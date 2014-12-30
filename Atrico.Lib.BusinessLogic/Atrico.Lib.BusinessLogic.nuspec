@@ -13,13 +13,17 @@
     <description>$description$</description>
     <copyright>$copyright$</copyright>
     <releaseNotes>
+2.0.0.1:
+  Tweak to version info, IRule made covariant
+2.0.0.0:
+  Rework to tidy up
+  Return value removed from rules
 1.0.0.0:
   Initial release
     </releaseNotes>
   </metadata>
   <files>
     <file src="bin\Release\$id$.*" target="lib\net45" />
-    <file src="..\*.40\bin\Release\$id$.*" target="lib\net40" />
     <file src="..\..\License.txt" target="docs" />
   </files>
 </package>

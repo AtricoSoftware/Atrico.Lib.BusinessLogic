@@ -1,40 +1,103 @@
-﻿namespace Atrico.Lib.RulesEngine.Specifications
+using System;
+
+namespace Atrico.Lib.BusinessLogic.Specifications
 {
 	/// <summary>
-	/// Helper class for specifications
+	///     Helper function for specifications
 	/// </summary>
-	public static class Specification
+	public static partial class Specification
 	{
 		/// <summary>
-		/// Create a specification representing the boolean Not of the specification
+		///     Creates a new TRUE specification
 		/// </summary>
-		/// <param name="operand">Operand for Not</param>
-		/// <returns>New specification</returns>
-		public static ISpecification<T> Not<T>(ISpecification<T> operand)
+		/// <typeparam name="T">Candidate type of specification</typeparam>
+		/// <returns>New Specification</returns>
+		public static ISpecification<T> True<T>()
 		{
-			return operand.Not();
+			return new TrueSpecification<T>();
 		}
 
 		/// <summary>
-		/// Create a specification representing the boolean And of the specifications
+		///     Creates a new FALSE specification
 		/// </summary>
-		/// <param name="lhs">lhs for operation</param>
-		/// <param name="rhs">rhs for operation</param>
-		/// <returns>New specification</returns>
-		public static ISpecification<T> And<T>(ISpecification<T> lhs, ISpecification<T> rhs)
+		/// <typeparam name="T">Candidate type of specification</typeparam>
+		/// <returns>New Specification</returns>
+		public static ISpecification<T> False<T>()
 		{
-			return lhs.And(rhs);
+			return new FalseSpecification<T>();
 		}
 
 		/// <summary>
-		/// Create a specification representing the boolean Or of the specifications
+		///     Create a new specification which is the negation of lhs
 		/// </summary>
-		/// <param name="lhs">lhs for operation</param>
-		/// <param name="rhs">rhs for operation</param>
-		/// <returns>New specification</returns>
-		public static ISpecification<T> Or<T>(ISpecification<T> lhs, ISpecification<T> rhs)
+		/// <typeparam name="T">Candidate type of specification</typeparam>
+		/// <returns>New specification negating this one</returns>
+		/// <returns>New specification representing NOT rhs</returns>
+		public static ISpecification<T> Not<T>(this ISpecification<T> rhs)
 		{
-			return lhs.Or(rhs);
+			if (rhs is TrueSpecification<T>) return new FalseSpecification<T>();
+			if (rhs is FalseSpecification<T>) return True<T>();
+			return NotSpecification<T>.Create(rhs);
+		}
+
+		/// <summary>
+		///     Create a new specification which is the logical AND of 2 specifications
+		/// </summary>
+		/// <typeparam name="T">Candidate type of specification</typeparam>
+		/// <param name="lhs">LHS specification</param>
+		/// <param name="rhs">RHS specification</param>
+		/// <returns>New specification representing lhs AND rhs</returns>
+		public static ISpecification<T> And<T>(this ISpecification<T> lhs, ISpecification<T> rhs)
+		{
+			return AndSpecification<T>.Create(lhs, rhs);
+		}
+
+		/// <summary>
+		///     Create a new specification which is the logical OR of 2 specifications
+		/// </summary>
+		/// <typeparam name="T">Candidate type of specification</typeparam>
+		/// <param name="lhs">LHS specification</param>
+		/// <param name="rhs">RHS specification</param>
+		/// <returns>New specification representing lhs OR rhs</returns>
+		public static ISpecification<T> Or<T>(this ISpecification<T> lhs, ISpecification<T> rhs)
+		{
+			return OrSpecification<T>.Create(lhs, rhs);
+		}
+
+		/// <summary>
+		///     Create a new specification which is the logical OR of 2 specifications
+		/// </summary>
+		/// <typeparam name="T">Candidate type of specification</typeparam>
+		/// <param name="lhs">LHS specification</param>
+		/// <param name="rhs">RHS specification</param>
+		/// <returns>New specification representing lhs OR rhs</returns>
+		public static ISpecification<T> Xor<T>(this ISpecification<T> lhs, ISpecification<T> rhs)
+		{
+			return XorSpecification<T>.Create(lhs, rhs);
+		}
+
+		/// <summary>
+		/// Creates a specification from a predicate.
+		/// </summary>
+		/// <typeparam name="T">Candidate type of specification</typeparam>
+		/// <param name="predicate">The predicate.</param>
+		/// <returns>New specification</returns>
+		public static ISpecification<T> Create<T>(Func<T, bool> predicate)
+		{
+			return new PredicateSpecification<T>(predicate);
+		}
+
+		/// <summary>
+		/// Creates a specification to check property is one of
+		/// </summary>
+		/// <typeparam name="T">Candidate type of specification</typeparam>
+		/// <typeparam name="TProp">Type of property</typeparam>
+		/// <param name="getPropertyFunction">Function to return property</param>
+		/// <param name="expectedValues">Values of property</param>
+		/// <returns>New specification</returns>
+		public static ISpecification<T> Create<T, TProp>(Func<T, TProp> getPropertyFunction, params TProp[] expectedValues)
+		{
+			return new PropertyIsOneOfSpecification<T, TProp>(getPropertyFunction, expectedValues);
 		}
 	}
 }

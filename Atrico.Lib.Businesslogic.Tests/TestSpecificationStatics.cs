@@ -1,20 +1,19 @@
-﻿using Atrico.Lib.RulesEngine.Specifications;
+﻿using Atrico.Lib.Assertions;
+using Atrico.Lib.BusinessLogic.Specifications;
 using Atrico.Lib.Testing;
 using Atrico.Lib.Testing.NUnitAttributes;
-using Assert = Atrico.Lib.Assertions.Assert;
-using Is = Atrico.Lib.Assertions.Is;
 
 namespace Atrico.Lib.BusinessLogic.Tests
 {
 	public class TestSpecificationStatics<T> : TestPODTypes<T>
 	{
 		[Test]
-		public void TestSpecificationNot([Values(false, true)]bool operand)
+		public void TestSpecificationNot([Values(false, true)] bool operand)
 		{
 			// Arrange
 			var candidate = RandomValues.Value<T>();
-			var innerSpecification = new PredicateSpecification<T>(__ => operand);
-			var specification = Specification.Not(innerSpecification);
+			var innerSpecification = Specification.Create<T>(__ => operand);
+			var specification = innerSpecification.Not();
 
 			// Act
 			var isSatisfied = specification.IsSatisfiedBy(candidate);
@@ -25,13 +24,13 @@ namespace Atrico.Lib.BusinessLogic.Tests
 		}
 
 		[Test]
-		public void TestSpecificationAnd([Values(false, true)]bool lhs, [Values(false, true)]bool rhs)
+		public void TestSpecificationAnd([Values(false, true)] bool lhs, [Values(false, true)] bool rhs)
 		{
 			// Arrange
 			var candidate = RandomValues.Value<T>();
-			var lhsSpecification = new PredicateSpecification<T>(__ => lhs);
-			var rhsSpecification = new PredicateSpecification<T>(__ => rhs);
-			var specification = Specification.And(lhsSpecification, rhsSpecification);
+			var lhsSpecification = Specification.Create<T>(__ => lhs);
+			var rhsSpecification = Specification.Create<T>(__ => rhs);
+			var specification = lhsSpecification.And(rhsSpecification);
 
 			// Act
 			var isSatisfied = specification.IsSatisfiedBy(candidate);
@@ -42,13 +41,13 @@ namespace Atrico.Lib.BusinessLogic.Tests
 		}
 
 		[Test]
-		public void TestSpecificationOr([Values(false, true)]bool lhs, [Values(false, true)]bool rhs)
+		public void TestSpecificationOr([Values(false, true)] bool lhs, [Values(false, true)] bool rhs)
 		{
 			// Arrange
 			var candidate = RandomValues.Value<T>();
-			var lhsSpecification = new PredicateSpecification<T>(__ => lhs);
-			var rhsSpecification = new PredicateSpecification<T>(__ => rhs);
-			var specification = Specification.Or(lhsSpecification, rhsSpecification);
+			var lhsSpecification = Specification.Create<T>(__ => lhs);
+			var rhsSpecification = Specification.Create<T>(__ => rhs);
+			var specification = lhsSpecification.Or(rhsSpecification);
 
 			// Act
 			var isSatisfied = specification.IsSatisfiedBy(candidate);

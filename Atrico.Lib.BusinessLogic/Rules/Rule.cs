@@ -1,23 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Atrico.Lib.RulesEngine.Specifications;
+using Atrico.Lib.BusinessLogic.Specifications;
 
 namespace Atrico.Lib.BusinessLogic.Rules
 {
 	/// <summary>
 	///     Creator class for rules
 	/// </summary>
-	public class Rule
+	public static partial class Rule
 	{
 		/// <summary>
-		///	Create No Action rule
+		///     Add a follow on rule to be processed after this one
 		/// </summary>
-		/// <typeparam name="T">Type of action</typeparam>
-		/// <returns>Rule that performs no action</returns>
-		public static IRule<T> NoAction<T>()
+		/// <param name="firstRule">First rule in chain</param>
+		/// <param name="followOnRule">Rule to process after first one</param>
+		/// <returns>New rule representing this follewed by other</returns>
+		public static IRule<T> FollowOn<T>(this IRule<T> firstRule, IRule<T> followOnRule)
 		{
-			return new NoActionRule<T>();
+			return MultipleRules<T>.Create(firstRule, followOnRule);
 		}
 
 		/// <summary>
@@ -30,48 +31,9 @@ namespace Atrico.Lib.BusinessLogic.Rules
 		/// <returns>New Rule</returns>
 		public static IRule<T> Create<T>(ISpecification<T> specification, IRule<T> ifSatisfied, IRule<T> ifNotSatisfied)
 		{
-			var satisfiedRuleNotNull = ifSatisfied ?? new NoActionRule<T>();
-			var unsatisfiedRuleNotNull = ifNotSatisfied ?? new NoActionRule<T>();
+			var satisfiedRuleNotNull = ifSatisfied ?? NoAction<T>();
+			var unsatisfiedRuleNotNull = ifNotSatisfied ?? NoAction<T>();
 			return new DecisionRule<T>(specification, satisfiedRuleNotNull, unsatisfiedRuleNotNull);
-		}
-
-		/// <summary>
-		///     Create a decision node (using actions rather than rules)
-		/// </summary>
-		/// <typeparam name="T">Underlying type</typeparam>
-		/// <param name="specification">Specification to test</param>
-		/// <param name="ifSatisfied">Action to process if specification is satisfied</param>
-		/// <param name="ifNotSatisfied">Action to process if specification is not satisfied</param>
-		/// <returns>New Rule</returns>
-		public static IRule<T> Create<T>(ISpecification<T> specification, Action<T> ifSatisfied, Action<T> ifNotSatisfied)
-		{
-			return Create(specification, Create(ifSatisfied), Create(ifNotSatisfied));
-		}
-
-		/// <summary>
-		///     Create a decision node (mix of actions and rules)
-		/// </summary>
-		/// <typeparam name="T">Underlying type</typeparam>
-		/// <param name="specification">Specification to test</param>
-		/// <param name="ifSatisfied">Action to process if specification is satisfied</param>
-		/// <param name="ifNotSatisfied">Rule to process if specification is not satisfied</param>
-		/// <returns>New Rule</returns>
-		public static IRule<T> Create<T>(ISpecification<T> specification, Action<T> ifSatisfied, IRule<T> ifNotSatisfied)
-		{
-			return Create(specification, Create(ifSatisfied), ifNotSatisfied);
-		}
-
-		/// <summary>
-		///     Create a decision node (mix of actions and rules)
-		/// </summary>
-		/// <typeparam name="T">Underlying type</typeparam>
-		/// <param name="specification">Specification to test</param>
-		/// <param name="ifSatisfied">Rule to process if specification is satisfied</param>
-		/// <param name="ifNotSatisfied">Action to process if specification is not satisfied</param>
-		/// <returns>New Rule</returns>
-		public static IRule<T> Create<T>(ISpecification<T> specification, IRule<T> ifSatisfied, Action<T> ifNotSatisfied)
-		{
-			return Create(specification, ifSatisfied, Create(ifNotSatisfied));
 		}
 
 		/// <summary>
@@ -80,9 +42,9 @@ namespace Atrico.Lib.BusinessLogic.Rules
 		/// <typeparam name="T">Underlying type</typeparam>
 		/// <param name="action">Action to carry out</param>
 		/// <returns>New Rule</returns>
-		public static IRule<T> Create<T>(Action<T> action = null)
+		public static IRule<T> Create<T>(Action<T> action)
 		{
-			return action != null ? new ActionRule<T>(action) : new NoActionRule<T>() as IRule<T>;
+			return action != null ? new ActionRule<T>(action) : NoAction<T>();
 		}
 
 		/// <summary>
@@ -97,17 +59,6 @@ namespace Atrico.Lib.BusinessLogic.Rules
 		}
 
 		/// <summary>
-		///     Create rule that operates on each member of a collection
-		/// </summary>
-		/// <typeparam name="T">Type of item in collection</typeparam>
-		/// <param name="action">Action to perform for each item</param>
-		/// <returns>New Rule</returns>
-		public static IRule<IEnumerable<T>> CreateForeach<T>(Action<T> action = null)
-		{
-			return action != null ? new ForeachRule<T>(new ActionRule<T>(action)) : new NoActionRule<IEnumerable<T>>() as IRule<IEnumerable<T>>;
-		}
-
-		/// <summary>
 		///     Create rule that acts as a chain of responsibility
 		///     The first specification that is satisfied has its rule used, then the chain terminates
 		/// </summary>
@@ -116,7 +67,7 @@ namespace Atrico.Lib.BusinessLogic.Rules
 		/// <returns>New Rule</returns>
 		public static IRule<T> CreateChainOfResponsibility<T>(IEnumerable<Tuple<ISpecification<T>, IRule<T>>> entries)
 		{
-			var firstRule = Create<T>(null);
+			var firstRule = NoAction<T>();
 			DecisionRule<T> lastRule = null;
 			foreach (
 				var rule in entries.Select(entry => new DecisionRule<T>(entry.Item1, entry.Item2)))
@@ -129,6 +80,16 @@ namespace Atrico.Lib.BusinessLogic.Rules
 				lastRule = rule;
 			}
 			return firstRule;
+		}
+
+		/// <summary>
+		///     Create a null (no action) node
+		/// </summary>
+		/// <typeparam name="T">Underlying type</typeparam>
+		/// <returns>New Rule</returns>
+		public static IRule<T> NoAction<T>()
+		{
+			return new NoActionRule<T>();
 		}
 	}
 }

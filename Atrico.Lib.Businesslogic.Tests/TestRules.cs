@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Atrico.Lib.BusinessLogic.Rules;
-using Atrico.Lib.RulesEngine.Specifications;
+using Atrico.Lib.BusinessLogic.Specifications;
 using Atrico.Lib.Testing;
 using Atrico.Lib.Testing.Mocks;
 using Atrico.Lib.Testing.NUnitAttributes;
@@ -92,7 +92,7 @@ namespace Atrico.Lib.BusinessLogic.Tests
 			const int count = 10;
 			var subject = new HashSet<T>(RandomValues.Values<T>(count));
 			var mockAction = new Mock<IInvokeDelegate>();
-			var rule = Rule.CreateForeach<T>(mockAction.Object.Action);
+			var rule = Rule.CreateForeach(Rule.Create<T>(mockAction.Object.Action));
 
 			// Act
 			rule.Process(subject);
@@ -100,7 +100,7 @@ namespace Atrico.Lib.BusinessLogic.Tests
 			// Assert
 			foreach (var item in subject)
 			{
-				T item1 = item;
+				var item1 = item;
 				mockAction.Verify(a => a.Action(item1), Times.Once());
 			}
 		}

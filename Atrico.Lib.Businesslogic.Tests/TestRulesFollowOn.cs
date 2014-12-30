@@ -8,7 +8,7 @@ namespace Atrico.Lib.BusinessLogic.Tests
 {
 	public class TestRulesFollowOn : TestFixtureBase
 	{
-		private readonly Action<object> _action = (o) => { };
+		private readonly Action<object> _action = o => { };
 
 		[Test]
 		public void TestActionFollowsNoAction()

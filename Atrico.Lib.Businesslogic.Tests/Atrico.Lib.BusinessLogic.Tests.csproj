@@ -54,6 +54,9 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Atrico.Lib.BusinessLogic\Properties\AssemblyVersion.cs">
+      <Link>Properties\AssemblyVersion.cs</Link>
+    </Compile>
     <Compile Include="Properties\CommonAssemblyInfo.cs" />
     <Compile Include="TestRules.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

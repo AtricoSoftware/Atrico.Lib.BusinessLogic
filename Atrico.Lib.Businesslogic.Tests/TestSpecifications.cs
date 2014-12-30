@@ -1,11 +1,9 @@
-﻿using System.Collections;
-using Atrico.Lib.RulesEngine.Specifications;
+﻿using Atrico.Lib.Assertions;
+using Atrico.Lib.BusinessLogic.Specifications;
 using Atrico.Lib.Testing;
 using Atrico.Lib.Testing.Mocks;
+using Atrico.Lib.Testing.NUnitAttributes;
 using Moq;
-using NUnit.Framework;
-using Assert = Atrico.Lib.Assertions.Assert;
-using Is = Atrico.Lib.Assertions.Is;
 
 namespace Atrico.Lib.BusinessLogic.Tests
 {
@@ -16,7 +14,7 @@ namespace Atrico.Lib.BusinessLogic.Tests
 		{
 			// Arrange
 			var candidate = RandomValues.Value<T>();
-			var mockSpecification = new Mock<Specification<T>>();
+			var mockSpecification = new Mock<ISpecification<T>>();
 			var specification = mockSpecification.Object;
 
 			// Act
@@ -32,7 +30,7 @@ namespace Atrico.Lib.BusinessLogic.Tests
 			// Arrange
 			var candidate = RandomValues.Value<T>();
 			var mockAction = new Mock<IInvokeDelegate>();
-			var specification = new PredicateSpecification<T>(mockAction.Object.Predicate);
+			var specification = Specification.Create<T>(mockAction.Object.Predicate);
 
 			// Act
 			specification.IsSatisfiedBy(candidate);
@@ -42,11 +40,11 @@ namespace Atrico.Lib.BusinessLogic.Tests
 		}
 
 		[Test]
-		public void TestSpecificationNot([Values(false, true)]bool operand)
+		public void TestSpecificationNot([Values(false, true)] bool operand)
 		{
 			// Arrange
 			var candidate = RandomValues.Value<T>();
-			var innerSpecification = new PredicateSpecification<T>(__ => operand);
+			var innerSpecification = Specification.Create<T>(__ => operand);
 			var specification = innerSpecification.Not();
 
 			// Act
@@ -58,54 +56,87 @@ namespace Atrico.Lib.BusinessLogic.Tests
 		}
 
 		[Test]
-		public void TestSpecificationAnd([Values(false, true)]bool lhs, [Values(false, true)]bool rhs)
+		public void TestSpecificationAnd([Values(false, true)] bool p1, [Values(false, true)] bool p2, [Values(false, true)] bool p3)
 		{
 			// Arrange
 			var candidate = RandomValues.Value<T>();
-			var lhsSpecification = new PredicateSpecification<T>(__ => lhs);
-			var rhsSpecification = new PredicateSpecification<T>(__ => rhs);
-			var specification = lhsSpecification.And(rhsSpecification);
+			var specification1 = Specification.Create<T>(__ => p1);
+			var specification2 = Specification.Create<T>(__ => p2);
+			var specification3 = Specification.Create<T>(__ => p3);
+			var specification = specification1.And(specification2).And(specification3);
 
 			// Act
 			var isSatisfied = specification.IsSatisfiedBy(candidate);
 
 			// Assert
-			var expected = lhs && rhs;
-			Assert.That(isSatisfied, Is.EqualTo(expected), string.Format("{0} And {1}", lhs, rhs));
+			var expected = p1 && p2 && p3;
+			Assert.That(isSatisfied, Is.EqualTo(expected), string.Format("{0} AND {1} AND {2}", p1, p2, p3));
 		}
 
 		[Test]
-		public void TestSpecificationOr([Values(false, true)]bool lhs, [Values(false, true)]bool rhs)
+		public void TestSpecificationAndConstant()
 		{
 			// Arrange
-			var candidate = RandomValues.Value<T>();
-			var lhsSpecification = new PredicateSpecification<T>(__ => lhs);
-			var rhsSpecification = new PredicateSpecification<T>(__ => rhs);
-			var specification = lhsSpecification.Or(rhsSpecification);
+			var specificationT = Specification.Create<T>(__ => true);
+			var specificationF = Specification.Create<T>(__ => false);
+			var specificationC = Specification.False<T>();
 
 			// Act
-			var isSatisfied = specification.IsSatisfiedBy(candidate);
+			var specification = specificationT.And(specificationC).And(specificationF);
 
 			// Assert
-			var expected = lhs || rhs;
-			Assert.That(isSatisfied, Is.EqualTo(expected), string.Format("{0} Or {1}", lhs, rhs));
+			Assert.That(specification, Is.TypeOf(specificationC.GetType()));
 		}
 
 		[Test]
-		public void TestSpecificationXor([Values(false, true)]bool lhs, [Values(false, true)]bool rhs)
+		public void TestSpecificationOr([Values(false, true)] bool p1, [Values(false, true)] bool p2, [Values(false, true)] bool p3)
 		{
 			// Arrange
 			var candidate = RandomValues.Value<T>();
-			var lhsSpecification = new PredicateSpecification<T>(__ => lhs);
-			var rhsSpecification = new PredicateSpecification<T>(__ => rhs);
-			var specification = new SpecificationXor<T>(lhsSpecification, rhsSpecification);
+			var specification1 = Specification.Create<T>(__ => p1);
+			var specification2 = Specification.Create<T>(__ => p2);
+			var specification3 = Specification.Create<T>(__ => p3);
+			var specification = specification1.Or(specification2).Or(specification3);
 
 			// Act
 			var isSatisfied = specification.IsSatisfiedBy(candidate);
 
 			// Assert
-			var expected = lhs ^ rhs;
-			Assert.That(isSatisfied, Is.EqualTo(expected), string.Format("{0} Xor {1}", lhs, rhs));
+			var expected = p1 || p2 || p3;
+			Assert.That(isSatisfied, Is.EqualTo(expected), string.Format("{0} OR {1} OR {2}", p1, p2, p3));
+		}
+
+		[Test]
+		public void TestSpecificationOrConstant()
+		{
+			// Arrange
+			var specificationT = Specification.Create<T>(__ => true);
+			var specificationF = Specification.Create<T>(__ => false);
+			var specificationC = Specification.True<T>();
+
+			// Act
+			var specification = specificationT.Or(specificationC).Or(specificationF);
+
+			// Assert
+			Assert.That(specification, Is.TypeOf(specificationC.GetType()));
+		}
+
+		[Test]
+		public void TestSpecificationXor([Values(false, true)] bool p1, [Values(false, true)] bool p2, [Values(false, true)] bool p3)
+		{
+			// Arrange
+			var candidate = RandomValues.Value<T>();
+			var specification1 = Specification.Create<T>(__ => p1);
+			var specification2 = Specification.Create<T>(__ => p2);
+			var specification3 = Specification.Create<T>(__ => p3);
+			var specification = specification1.Xor(specification2).Xor(specification3);
+
+			// Act
+			var isSatisfied = specification.IsSatisfiedBy(candidate);
+
+			// Assert
+			var expected = p1 ^ p2 ^ p3;
+			Assert.That(isSatisfied, Is.EqualTo(expected), string.Format("{0} XOR {1} XOR {2}", p1, p2, p3));
 		}
 	}
 }
