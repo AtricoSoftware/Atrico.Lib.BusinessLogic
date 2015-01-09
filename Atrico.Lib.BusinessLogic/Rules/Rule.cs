@@ -67,13 +67,7 @@ namespace Atrico.Lib.BusinessLogic.Rules
 		/// <returns>New Rule</returns>
 		public static IRule<T> CreateChainOfResponsibility<T>(IEnumerable<Tuple<ISpecification<T>, IRule<T>>> entries)
 		{
-			DecisionRule<T> currentRule = null;
-			foreach (var entry in entries.Reverse())
-			{
-				// Add to chain
-				currentRule = new DecisionRule<T>(entry.Item1, entry.Item2, currentRule);
-			}
-			return currentRule;
+			return entries.Reverse().Aggregate<Tuple<ISpecification<T>, IRule<T>>, DecisionRule<T>>(null, (current, entry) => new DecisionRule<T>(entry.Item1, entry.Item2, current));
 		}
 
 		/// <summary>

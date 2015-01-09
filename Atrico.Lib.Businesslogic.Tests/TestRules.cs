@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using Atrico.Lib.BusinessLogic.Rules;
 using Atrico.Lib.BusinessLogic.Specifications;
 using Atrico.Lib.Testing;
@@ -106,6 +105,7 @@ namespace Atrico.Lib.BusinessLogic.Tests
 				mockAction.Verify(a => a.Action(item1), Times.Once());
 			}
 		}
+
 		[Test]
 		public void TestChainOfResponsibilityRule()
 		{
@@ -115,7 +115,7 @@ namespace Atrico.Lib.BusinessLogic.Tests
 			var ruleTrue = Rule.Create<T>(mockActionTrue.Object.Action);
 			var mockActionFalse = new Mock<IInvokeDelegate>();
 			var ruleFalse = Rule.Create<T>(mockActionFalse.Object.Action);
-			var rule = Rule.CreateChainOfResponsibility(new []
+			var rule = Rule.CreateChainOfResponsibility(new[]
 			{
 				Tuple.Create(Specification.False<T>(), ruleFalse),
 				Tuple.Create(Specification.False<T>(), ruleFalse),
@@ -127,8 +127,8 @@ namespace Atrico.Lib.BusinessLogic.Tests
 			rule.Process(subject);
 
 			// Assert
-				mockActionTrue.Verify(a => a.Action(subject), Times.Once());
-				mockActionFalse.Verify(a => a.Action(It.IsAny<T>()), Times.Never);
+			mockActionTrue.Verify(a => a.Action(subject), Times.Once());
+			mockActionFalse.Verify(a => a.Action(It.IsAny<T>()), Times.Never);
 		}
 	}
 }

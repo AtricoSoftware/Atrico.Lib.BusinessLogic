@@ -65,8 +65,14 @@ namespace Atrico.Lib.BusinessLogic.Rules
 
 			public void Process(T subject)
 			{
-				if (_specification.IsSatisfiedBy(subject)) _satisfiedRule.Process(subject);
-				else _unsatisfiedRule.Process(subject);
+				if (_specification.IsSatisfiedBy(subject))
+				{
+					_satisfiedRule.Process(subject);
+				}
+				else
+				{
+					_unsatisfiedRule.Process(subject);
+				}
 			}
 
 			public override string ToString()
@@ -139,7 +145,10 @@ namespace Atrico.Lib.BusinessLogic.Rules
 
 			private static IEnumerable<IRule<T>> GetRules(IRule<T> rule)
 			{
-				if (rule == null || rule is NoActionRule<T>) return new IRule<T>[] {};
+				if (rule == null || rule is NoActionRule<T>)
+				{
+					return new IRule<T>[] {};
+				}
 				var group = rule as MultipleRules<T>;
 				return !ReferenceEquals(group, null) ? group._rules : new[] {rule};
 			}

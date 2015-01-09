@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
-<package >
+
+<package>
   <metadata>
     <id>$id$</id>
     <version>$version$</version>
@@ -13,14 +14,14 @@
     <description>$description$</description>
     <copyright>$copyright$</copyright>
     <releaseNotes>
-  Refactored chain of responsibility
-2.0.0.1:
-  Tweak to version info, IRule made covariant
-2.0.0.0:
-  Rework to tidy up
-  Return value removed from rules
-1.0.0.0:
-  Initial release
+      Refactored chain of responsibility
+      2.0.0.1:
+      Tweak to version info, IRule made covariant
+      2.0.0.0:
+      Rework to tidy up
+      Return value removed from rules
+      1.0.0.0:
+      Initial release
     </releaseNotes>
   </metadata>
   <files>

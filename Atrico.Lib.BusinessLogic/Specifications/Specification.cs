@@ -35,8 +35,14 @@ namespace Atrico.Lib.BusinessLogic.Specifications
 		/// <returns>New specification representing NOT rhs</returns>
 		public static ISpecification<T> Not<T>(this ISpecification<T> rhs)
 		{
-			if (rhs is TrueSpecification<T>) return new FalseSpecification<T>();
-			if (rhs is FalseSpecification<T>) return True<T>();
+			if (rhs is TrueSpecification<T>)
+			{
+				return new FalseSpecification<T>();
+			}
+			if (rhs is FalseSpecification<T>)
+			{
+				return True<T>();
+			}
 			return NotSpecification<T>.Create(rhs);
 		}
 

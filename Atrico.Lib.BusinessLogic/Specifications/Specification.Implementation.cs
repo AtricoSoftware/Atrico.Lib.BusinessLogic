@@ -84,15 +84,22 @@ namespace Atrico.Lib.BusinessLogic.Specifications
 
 			protected string ToString(string @operator)
 			{
-				if (!Specifications.Any()) return "";
+				if (!Specifications.Any())
+				{
+					return "";
+				}
 				var text = new StringBuilder();
 				var first = true;
 				foreach (var spec in Specifications)
 				{
 					if (!first)
+					{
 						text.AppendFormat(" {0} ", @operator);
+					}
 					else
+					{
 						first = false;
+					}
 					text.Append(spec);
 				}
 				return text.ToString();
@@ -100,7 +107,10 @@ namespace Atrico.Lib.BusinessLogic.Specifications
 
 			protected static IEnumerable<ISpecification<T>> GetSpecifications<TGroup>(ISpecification<T> specification) where TGroup : CompositeSpecification<T>
 			{
-				if (specification == null) return new ISpecification<T>[] {};
+				if (specification == null)
+				{
+					return new ISpecification<T>[] {};
+				}
 				var group = specification as TGroup;
 				return !ReferenceEquals(group, null) ? group.Specifications : new[] {specification};
 			}
@@ -114,10 +124,22 @@ namespace Atrico.Lib.BusinessLogic.Specifications
 		{
 			public static ISpecification<T> Create(ISpecification<T> lhs, ISpecification<T> rhs)
 			{
-				if (lhs is TrueSpecification<T>) return rhs;
-				if (rhs is TrueSpecification<T>) return lhs;
-				if (lhs is FalseSpecification<T>) return lhs;
-				if (rhs is FalseSpecification<T>) return rhs;
+				if (lhs is TrueSpecification<T>)
+				{
+					return rhs;
+				}
+				if (rhs is TrueSpecification<T>)
+				{
+					return lhs;
+				}
+				if (lhs is FalseSpecification<T>)
+				{
+					return lhs;
+				}
+				if (rhs is FalseSpecification<T>)
+				{
+					return rhs;
+				}
 				var specifications = new List<ISpecification<T>>();
 				specifications.AddRange(GetSpecifications<AndSpecification<T>>(lhs));
 				specifications.AddRange(GetSpecifications<AndSpecification<T>>(rhs));
@@ -152,10 +174,22 @@ namespace Atrico.Lib.BusinessLogic.Specifications
 		{
 			public static ISpecification<T> Create(ISpecification<T> lhs, ISpecification<T> rhs)
 			{
-				if (lhs is TrueSpecification<T>) return lhs;
-				if (rhs is TrueSpecification<T>) return rhs;
-				if (lhs is FalseSpecification<T>) return rhs;
-				if (rhs is FalseSpecification<T>) return lhs;
+				if (lhs is TrueSpecification<T>)
+				{
+					return lhs;
+				}
+				if (rhs is TrueSpecification<T>)
+				{
+					return rhs;
+				}
+				if (lhs is FalseSpecification<T>)
+				{
+					return rhs;
+				}
+				if (rhs is FalseSpecification<T>)
+				{
+					return lhs;
+				}
 				var specifications = new List<ISpecification<T>>();
 				specifications.AddRange(GetSpecifications<OrSpecification<T>>(lhs));
 				specifications.AddRange(GetSpecifications<OrSpecification<T>>(rhs));
@@ -256,19 +290,9 @@ namespace Atrico.Lib.BusinessLogic.Specifications
 			/// <param name="getPropertyFunction">Function to return property from candidate</param>
 			/// <param name="expectedValues">Values to compare</param>
 			public PropertyIsOneOfSpecification(Func<T, TProp> getPropertyFunction, params TProp[] expectedValues)
-				: this(getPropertyFunction, new HashSet<TProp>(expectedValues))
-			{
-			}
-
-			/// <summary>
-			///     Constructor
-			/// </summary>
-			/// <param name="getPropertyFunction">Function to return property from candidate</param>
-			/// <param name="expectedValues">Values to compare</param>
-			public PropertyIsOneOfSpecification(Func<T, TProp> getPropertyFunction, ISet<TProp> expectedValues)
 			{
 				_getPropertyFunction = getPropertyFunction;
-				_expectedValues = expectedValues;
+				_expectedValues = new HashSet<TProp>(expectedValues);
 			}
 
 			public bool IsSatisfiedBy(T candidate)
