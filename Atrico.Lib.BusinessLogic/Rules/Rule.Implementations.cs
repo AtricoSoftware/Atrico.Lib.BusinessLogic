@@ -47,7 +47,7 @@ namespace Atrico.Lib.BusinessLogic.Rules
 		{
 			private readonly ISpecification<T> _specification;
 			private readonly IRule<T> _satisfiedRule;
-			internal IRule<T> UnsatisfiedRule;
+			private readonly IRule<T> _unsatisfiedRule;
 
 			/// <summary>
 			///     Constructor
@@ -60,18 +60,18 @@ namespace Atrico.Lib.BusinessLogic.Rules
 			{
 				_specification = specification;
 				_satisfiedRule = satisfiedRule ?? NoAction<T>();
-				UnsatisfiedRule = unsatisfiedRule ?? NoAction<T>();
+				_unsatisfiedRule = unsatisfiedRule ?? NoAction<T>();
 			}
 
 			public void Process(T subject)
 			{
 				if (_specification.IsSatisfiedBy(subject)) _satisfiedRule.Process(subject);
-				else UnsatisfiedRule.Process(subject);
+				else _unsatisfiedRule.Process(subject);
 			}
 
 			public override string ToString()
 			{
-				return string.Format("({0}) ? ({1}) : ({2})", _specification, _satisfiedRule, UnsatisfiedRule);
+				return string.Format("({0}) ? ({1}) : ({2})", _specification, _satisfiedRule, _unsatisfiedRule);
 			}
 		}
 

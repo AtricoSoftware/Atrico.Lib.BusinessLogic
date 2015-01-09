@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 using Atrico.Lib.BusinessLogic.Rules;
 using Atrico.Lib.BusinessLogic.Specifications;
 using Atrico.Lib.Testing;
@@ -103,6 +105,30 @@ namespace Atrico.Lib.BusinessLogic.Tests
 				var item1 = item;
 				mockAction.Verify(a => a.Action(item1), Times.Once());
 			}
+		}
+		[Test]
+		public void TestChainOfResponsibilityRule()
+		{
+			// Arrange
+			var subject = RandomValues.Value<T>();
+			var mockActionTrue = new Mock<IInvokeDelegate>();
+			var ruleTrue = Rule.Create<T>(mockActionTrue.Object.Action);
+			var mockActionFalse = new Mock<IInvokeDelegate>();
+			var ruleFalse = Rule.Create<T>(mockActionFalse.Object.Action);
+			var rule = Rule.CreateChainOfResponsibility(new []
+			{
+				Tuple.Create(Specification.False<T>(), ruleFalse),
+				Tuple.Create(Specification.False<T>(), ruleFalse),
+				Tuple.Create(Specification.True<T>(), ruleTrue),
+				Tuple.Create(Specification.True<T>(), ruleFalse)
+			});
+
+			// Act
+			rule.Process(subject);
+
+			// Assert
+				mockActionTrue.Verify(a => a.Action(subject), Times.Once());
+				mockActionFalse.Verify(a => a.Action(It.IsAny<T>()), Times.Never);
 		}
 	}
 }

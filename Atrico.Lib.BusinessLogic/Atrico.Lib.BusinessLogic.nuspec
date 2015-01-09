@@ -13,6 +13,7 @@
     <description>$description$</description>
     <copyright>$copyright$</copyright>
     <releaseNotes>
+  Refactored chain of responsibility
 2.0.0.1:
   Tweak to version info, IRule made covariant
 2.0.0.0:
