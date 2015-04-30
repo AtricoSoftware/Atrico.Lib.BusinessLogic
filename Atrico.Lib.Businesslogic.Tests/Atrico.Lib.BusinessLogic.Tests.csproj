@@ -48,8 +48,9 @@
     <Reference Include="Atrico.Lib.Common">
       <HintPath>..\packages\Atrico.Lib.Common.1.4.0.0\lib\net452\Atrico.Lib.Common.dll</HintPath>
     </Reference>
-    <Reference Include="Atrico.Lib.Testing">
-      <HintPath>..\packages\Atrico.Lib.Testing.1.2.1.0\lib\net45\Atrico.Lib.Testing.dll</HintPath>
+    <Reference Include="Atrico.Lib.Testing, Version=1.2.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Atrico.Lib.Testing.1.2.2.0\lib\net452\Atrico.Lib.Testing.dll</HintPath>
     </Reference>
     <Reference Include="Moq">
       <HintPath>..\packages\Moq.4.2.1502.0911\lib\net40\Moq.dll</HintPath>
