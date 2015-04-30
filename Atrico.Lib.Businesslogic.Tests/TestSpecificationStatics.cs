@@ -1,4 +1,6 @@
 ﻿using Atrico.Lib.Assertions;
+using Atrico.Lib.Assertions.Constraints;
+using Atrico.Lib.Assertions.Elements;
 using Atrico.Lib.BusinessLogic.Specifications;
 using Atrico.Lib.Testing;
 using Atrico.Lib.Testing.NUnitAttributes;
@@ -20,7 +22,7 @@ namespace Atrico.Lib.BusinessLogic.Tests
 
 			// Assert
 			var expected = !operand;
-			Assert.That(isSatisfied, Is.EqualTo(expected), string.Format("Not {0}", operand));
+			Assert.That(Value.Of(isSatisfied).Is().EqualTo(expected), string.Format("Not {0}", operand));
 		}
 
 		[Test]
@@ -37,7 +39,7 @@ namespace Atrico.Lib.BusinessLogic.Tests
 
 			// Assert
 			var expected = lhs && rhs;
-			Assert.That(isSatisfied, Is.EqualTo(expected), string.Format("{0} And {1}", lhs, rhs));
+			Assert.That(Value.Of(isSatisfied).Is().EqualTo(expected), string.Format("{0} And {1}", lhs, rhs));
 		}
 
 		[Test]
@@ -54,7 +56,7 @@ namespace Atrico.Lib.BusinessLogic.Tests
 
 			// Assert
 			var expected = lhs || rhs;
-			Assert.That(isSatisfied, Is.EqualTo(expected), string.Format("{0} Or {1}", lhs, rhs));
+			Assert.That(Value.Of(isSatisfied).Is().EqualTo(expected), string.Format("{0} Or {1}", lhs, rhs));
 		}
 	}
 }

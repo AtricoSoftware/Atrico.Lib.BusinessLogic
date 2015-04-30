@@ -1,5 +1,7 @@
 ﻿using System;
 using Atrico.Lib.Assertions;
+using Atrico.Lib.Assertions.Constraints;
+using Atrico.Lib.Assertions.Elements;
 using Atrico.Lib.BusinessLogic.Rules;
 using Atrico.Lib.Testing;
 using Atrico.Lib.Testing.NUnitAttributes;
@@ -21,7 +23,7 @@ namespace Atrico.Lib.BusinessLogic.Tests
 			var result = noAction.FollowOn(action);
 
 			// Assert
-			Assert.That(result, Is.ReferenceEqualTo(action));
+			Assert.That(Value.Of(result).Is().ReferenceEqualTo(action));
 		}
 
 		[Test]
@@ -35,7 +37,7 @@ namespace Atrico.Lib.BusinessLogic.Tests
 			var result = action.FollowOn(noAction);
 
 			// Assert
-			Assert.That(result, Is.ReferenceEqualTo(action));
+			Assert.That(Value.Of(result).Is().ReferenceEqualTo(action));
 		}
 	}
 }

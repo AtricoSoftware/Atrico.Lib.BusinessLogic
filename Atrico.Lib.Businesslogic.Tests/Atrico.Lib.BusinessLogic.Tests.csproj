@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Atrico.Lib.BusinessLogic.Tests</RootNamespace>
     <AssemblyName>Atrico.Lib.BusinessLogic.Tests</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
     <SccProjectName>
@@ -43,17 +43,16 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Atrico.Lib.Assertions">
-      <HintPath>..\packages\Atrico.Lib.Assertions.2.1.0.0\lib\net45\Atrico.Lib.Assertions.dll</HintPath>
+      <HintPath>..\packages\Atrico.Lib.Assertions.3.2.0.0\lib\net452\Atrico.Lib.Assertions.dll</HintPath>
     </Reference>
-    <Reference Include="Atrico.Lib.Common, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Atrico.Lib.Common.1.2.0.0\lib\net45\Atrico.Lib.Common.dll</HintPath>
+    <Reference Include="Atrico.Lib.Common">
+      <HintPath>..\packages\Atrico.Lib.Common.1.4.0.0\lib\net452\Atrico.Lib.Common.dll</HintPath>
     </Reference>
     <Reference Include="Atrico.Lib.Testing">
-      <HintPath>..\packages\Atrico.Lib.Testing.1.2.0.0\lib\net45\Atrico.Lib.Testing.dll</HintPath>
+      <HintPath>..\packages\Atrico.Lib.Testing.1.2.1.0\lib\net45\Atrico.Lib.Testing.dll</HintPath>
     </Reference>
     <Reference Include="Moq">
-      <HintPath>..\packages\Moq.4.2.1409.1722\lib\net40\Moq.dll</HintPath>
+      <HintPath>..\packages\Moq.4.2.1502.0911\lib\net40\Moq.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework">
       <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>

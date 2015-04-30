@@ -1,4 +1,6 @@
 ﻿using Atrico.Lib.Assertions;
+using Atrico.Lib.Assertions.Constraints;
+using Atrico.Lib.Assertions.Elements;
 using Atrico.Lib.BusinessLogic.Specifications;
 using Atrico.Lib.Testing;
 using Atrico.Lib.Testing.Mocks;
@@ -52,7 +54,7 @@ namespace Atrico.Lib.BusinessLogic.Tests
 
 			// Assert
 			var expected = !operand;
-			Assert.That(isSatisfied, Is.EqualTo(expected), string.Format("Not {0}", operand));
+			Assert.That(Value.Of(isSatisfied).Is().EqualTo(expected), string.Format("Not {0}", operand));
 		}
 
 		[Test]
@@ -70,7 +72,7 @@ namespace Atrico.Lib.BusinessLogic.Tests
 
 			// Assert
 			var expected = p1 && p2 && p3;
-			Assert.That(isSatisfied, Is.EqualTo(expected), string.Format("{0} AND {1} AND {2}", p1, p2, p3));
+			Assert.That(Value.Of(isSatisfied).Is().EqualTo(expected), string.Format("{0} AND {1} AND {2}", p1, p2, p3));
 		}
 
 		[Test]
@@ -85,7 +87,7 @@ namespace Atrico.Lib.BusinessLogic.Tests
 			var specification = specificationT.And(specificationC).And(specificationF);
 
 			// Assert
-			Assert.That(specification, Is.TypeOf(specificationC.GetType()));
+			Assert.That(Value.Of(specification).Is().TypeOf(specificationC.GetType()));
 		}
 
 		[Test]
@@ -103,7 +105,7 @@ namespace Atrico.Lib.BusinessLogic.Tests
 
 			// Assert
 			var expected = p1 || p2 || p3;
-			Assert.That(isSatisfied, Is.EqualTo(expected), string.Format("{0} OR {1} OR {2}", p1, p2, p3));
+			Assert.That(Value.Of(isSatisfied).Is().EqualTo(expected), string.Format("{0} OR {1} OR {2}", p1, p2, p3));
 		}
 
 		[Test]
@@ -118,7 +120,7 @@ namespace Atrico.Lib.BusinessLogic.Tests
 			var specification = specificationT.Or(specificationC).Or(specificationF);
 
 			// Assert
-			Assert.That(specification, Is.TypeOf(specificationC.GetType()));
+			Assert.That(Value.Of(specification).Is().TypeOf(specificationC.GetType()));
 		}
 
 		[Test]
@@ -136,7 +138,7 @@ namespace Atrico.Lib.BusinessLogic.Tests
 
 			// Assert
 			var expected = p1 ^ p2 ^ p3;
-			Assert.That(isSatisfied, Is.EqualTo(expected), string.Format("{0} XOR {1} XOR {2}", p1, p2, p3));
+			Assert.That(Value.Of(isSatisfied).Is().EqualTo(expected), string.Format("{0} XOR {1} XOR {2}", p1, p2, p3));
 		}
 	}
 }
