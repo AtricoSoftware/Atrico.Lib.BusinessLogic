@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Atrico.Lib.BusinessLogic</RootNamespace>
     <AssemblyName>Atrico.Lib.BusinessLogic</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
     <SccProjectName>
@@ -58,7 +58,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Atrico.Lib.BusinessLogic.nuspec" />
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

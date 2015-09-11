@@ -4,7 +4,7 @@ using Atrico.Lib.Assertions.Elements;
 using Atrico.Lib.BusinessLogic.Specifications;
 using Atrico.Lib.Testing;
 using Atrico.Lib.Testing.Mocks;
-using Atrico.Lib.Testing.NUnitAttributes;
+using Atrico.Lib.Testing.TestAttributes.NUnit;
 using Moq;
 
 namespace Atrico.Lib.BusinessLogic.Tests
