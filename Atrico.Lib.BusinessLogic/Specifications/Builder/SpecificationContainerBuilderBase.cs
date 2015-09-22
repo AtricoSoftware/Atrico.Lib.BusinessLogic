@@ -32,5 +32,10 @@ namespace Atrico.Lib.BusinessLogic.Specifications.Builder
             _items.Add(specification);
             return this;
         }
+
+        public ISpecificationContainerBuilder<T> Convert<TConv>() where TConv : ISpecificationContainerBuilder<T>, new()
+        {
+            return Items.Aggregate(new TConv() as ISpecificationContainerBuilder<T>, (current, item) => current.Add(item));
+        }
     }
 }

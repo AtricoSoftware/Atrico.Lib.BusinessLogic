@@ -218,5 +218,50 @@ namespace Atrico.Lib.BusinessLogic.Tests
         }
 
         #endregion
+    
+        [Test]
+        public void TestConvertContainers()
+        {
+            const int count = 5;
+            // Arrange
+            var specs = new List<ISpecificationBuilder<T>>();
+            for (var i = 0; i < count; ++i)
+            {
+                specs.Add(new SimpleSpecificationBuilder<T>(Specification.True<T>));
+            }
+
+            // Act
+            var builder = specs.Aggregate(new SpecificationBuilderAnd<T>() as ISpecificationContainerBuilder<T>, (current, item) => current.Add(item));
+            var builderAndAnd = builder.Convert<SpecificationBuilderAnd<T>>();           
+            var builderAndOr = builder.Convert<SpecificationBuilderOr<T>>();
+            var builderAndXor = builder.Convert<SpecificationBuilderXor<T>>();
+            var builderOrAnd = builderAndOr.Convert<SpecificationBuilderAnd<T>>();
+            var builderOrOr = builderAndOr.Convert<SpecificationBuilderOr<T>>();
+            var builderOrXor = builderAndXor.Convert<SpecificationBuilderXor<T>>();
+            var builderXorAnd = builderAndXor.Convert<SpecificationBuilderAnd<T>>();
+            var builderXorOr = builderAndXor.Convert<SpecificationBuilderOr<T>>();
+            var builderXorXor = builderAndXor.Convert<SpecificationBuilderXor<T>>();
+            
+            // Assert
+            Assert.That(Value.Of(builderAndAnd.Items).Count().Is().EqualTo(count), "No of Items (and-and)");
+            Assert.That(Value.Of(builderAndAnd).Is().TypeOf(typeof(SpecificationBuilderAnd<T>)), "Correct builder type (and-and)");
+            Assert.That(Value.Of(builderAndOr.Items).Count().Is().EqualTo(count), "No of Items (and-or)");
+            Assert.That(Value.Of(builderAndOr).Is().TypeOf(typeof(SpecificationBuilderOr<T>)), "Correct builder type (and-or)");
+            Assert.That(Value.Of(builderAndXor.Items).Count().Is().EqualTo(count), "No of Items (and-xor)");
+            Assert.That(Value.Of(builderAndXor).Is().TypeOf(typeof(SpecificationBuilderXor<T>)), "Correct builder type (and-xor)");
+            Assert.That(Value.Of(builderOrAnd.Items).Count().Is().EqualTo(count), "No of Items (or-and)");
+            Assert.That(Value.Of(builderOrAnd).Is().TypeOf(typeof(SpecificationBuilderAnd<T>)), "Correct builder type (or-and)");
+            Assert.That(Value.Of(builderOrOr.Items).Count().Is().EqualTo(count), "No of Items (or-or)");
+            Assert.That(Value.Of(builderOrOr).Is().TypeOf(typeof(SpecificationBuilderOr<T>)), "Correct builder type (or-or)");
+            Assert.That(Value.Of(builderOrXor.Items).Count().Is().EqualTo(count), "No of Items (or-xor)");
+            Assert.That(Value.Of(builderOrXor).Is().TypeOf(typeof(SpecificationBuilderXor<T>)), "Correct builder type (or-xor)");
+            Assert.That(Value.Of(builderXorAnd.Items).Count().Is().EqualTo(count), "No of Items (xor-and)");
+            Assert.That(Value.Of(builderXorAnd).Is().TypeOf(typeof(SpecificationBuilderAnd<T>)), "Correct builder type (xor-and)");
+            Assert.That(Value.Of(builderXorOr.Items).Count().Is().EqualTo(count), "No of Items (xor-or)");
+            Assert.That(Value.Of(builderXorOr).Is().TypeOf(typeof(SpecificationBuilderOr<T>)), "Correct builder type (xor-or)");
+            Assert.That(Value.Of(builderXorXor.Items).Count().Is().EqualTo(count), "No of Items (xor-xor)");
+            Assert.That(Value.Of(builderXorXor).Is().TypeOf(typeof(SpecificationBuilderXor<T>)), "Correct builder type (xor-xor)");
+        }
+        
     }
 }
