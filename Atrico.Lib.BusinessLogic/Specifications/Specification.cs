@@ -1,5 +1,6 @@
 using System;
 using Atrico.Lib.BusinessLogic.Specifications.Implementation;
+using Atrico.Lib.BusinessLogic.Specifications.Implementation.Specification;
 
 namespace Atrico.Lib.BusinessLogic.Specifications
 {

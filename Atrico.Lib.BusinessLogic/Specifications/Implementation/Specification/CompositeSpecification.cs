@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Atrico.Lib.BusinessLogic.Specifications.Implementation
+namespace Atrico.Lib.BusinessLogic.Specifications.Implementation.Specification
 {
     internal abstract class CompositeSpecification<T> : ISpecification<T>
     {

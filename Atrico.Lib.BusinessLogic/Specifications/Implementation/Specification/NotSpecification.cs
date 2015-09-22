@@ -1,4 +1,4 @@
-namespace Atrico.Lib.BusinessLogic.Specifications.Implementation
+namespace Atrico.Lib.BusinessLogic.Specifications.Implementation.Specification
 {
     /// <summary>
     ///     Represents a NOT specification.

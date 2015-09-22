@@ -81,18 +81,21 @@
     <Compile Include="Rules\IRule.cs" />
     <Compile Include="Rules\Rule.Implementations.cs" />
     <Compile Include="Rules\Rule.cs" />
-    <Compile Include="Specifications\Implementation\AndSpecification.cs" />
-    <Compile Include="Specifications\Implementation\CompositeSpecification.cs" />
-    <Compile Include="Specifications\Implementation\NotSpecification.cs" />
-    <Compile Include="Specifications\Implementation\OrSpecification.cs" />
-    <Compile Include="Specifications\Implementation\PredicateSpecification.cs" />
-    <Compile Include="Specifications\Implementation\PropertyIsOneOfSpecification.cs" />
-    <Compile Include="Specifications\Implementation\FalseSpecification.cs" />
-    <Compile Include="Specifications\Implementation\TrueSpecification.cs" />
-    <Compile Include="Specifications\Implementation\XorSpecification.cs" />
+    <Compile Include="Specifications\Implementation\Builder\SimpleSpecificationBuilder.cs" />
+    <Compile Include="Specifications\Implementation\Specification\AndSpecification.cs" />
+    <Compile Include="Specifications\Implementation\Specification\CompositeSpecification.cs" />
+    <Compile Include="Specifications\Implementation\Specification\NotSpecification.cs" />
+    <Compile Include="Specifications\Implementation\Specification\OrSpecification.cs" />
+    <Compile Include="Specifications\Implementation\Specification\PredicateSpecification.cs" />
+    <Compile Include="Specifications\Implementation\Specification\PropertyIsOneOfSpecification.cs" />
+    <Compile Include="Specifications\Implementation\Specification\FalseSpecification.cs" />
+    <Compile Include="Specifications\Implementation\Specification\TrueSpecification.cs" />
+    <Compile Include="Specifications\Implementation\Specification\XorSpecification.cs" />
     <Compile Include="Specifications\ISpecification.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Specifications\ISpecificationBuilder.cs" />
     <Compile Include="Specifications\Specification.cs" />
+    <Compile Include="Specifications\SpecificationBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Atrico.Lib.BusinessLogic.nuspec" />

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Atrico.Lib.BusinessLogic.Specifications.Implementation
+namespace Atrico.Lib.BusinessLogic.Specifications.Implementation.Specification
 {
     /// <summary>
     ///     Implementation of AND logic
