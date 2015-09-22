@@ -1,11 +1,12 @@
 using System;
+using Atrico.Lib.BusinessLogic.Specifications.Implementation;
 
 namespace Atrico.Lib.BusinessLogic.Specifications
 {
 	/// <summary>
 	///     Helper function for specifications
 	/// </summary>
-	public static partial class Specification
+	public static class Specification
 	{
 		/// <summary>
 		///     Creates a new TRUE specification

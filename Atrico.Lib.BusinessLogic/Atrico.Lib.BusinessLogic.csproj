@@ -81,7 +81,15 @@
     <Compile Include="Rules\IRule.cs" />
     <Compile Include="Rules\Rule.Implementations.cs" />
     <Compile Include="Rules\Rule.cs" />
-    <Compile Include="Specifications\Specification.Implementation.cs" />
+    <Compile Include="Specifications\Implementation\AndSpecification.cs" />
+    <Compile Include="Specifications\Implementation\CompositeSpecification.cs" />
+    <Compile Include="Specifications\Implementation\NotSpecification.cs" />
+    <Compile Include="Specifications\Implementation\OrSpecification.cs" />
+    <Compile Include="Specifications\Implementation\PredicateSpecification.cs" />
+    <Compile Include="Specifications\Implementation\PropertyIsOneOfSpecification.cs" />
+    <Compile Include="Specifications\Implementation\FalseSpecification.cs" />
+    <Compile Include="Specifications\Implementation\TrueSpecification.cs" />
+    <Compile Include="Specifications\Implementation\XorSpecification.cs" />
     <Compile Include="Specifications\ISpecification.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Specifications\Specification.cs" />
