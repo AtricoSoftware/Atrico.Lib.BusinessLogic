@@ -1,8 +1,8 @@
 using System;
 
-namespace Atrico.Lib.BusinessLogic.Specifications.Implementation.Builder
+namespace Atrico.Lib.BusinessLogic.Specifications.Builder
 {
-    internal class SimpleSpecificationBuilder<T> : ISpecificationBuilder<T>
+    public class SimpleSpecificationBuilder<T> : ISpecificationBuilder<T>
     {
         private readonly Func<ISpecification<T>> _specificationFactory;
 
