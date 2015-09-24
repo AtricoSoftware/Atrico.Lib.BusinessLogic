@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Atrico.Lib.BusinessLogic.Specifications;
 
-namespace Atrico.Lib.BusinessLogic.Implementation.Specifications
+namespace Atrico.Lib.BusinessLogic.zzImplementation.Specifications
 {
     /// <summary>
     ///     Class for specifications which compare a simple property to a list of possible values.

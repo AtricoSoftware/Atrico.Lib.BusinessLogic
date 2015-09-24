@@ -1,7 +1,7 @@
 using System;
 using Atrico.Lib.BusinessLogic.Specifications;
 
-namespace Atrico.Lib.BusinessLogic.Implementation.Specifications
+namespace Atrico.Lib.BusinessLogic.zzImplementation.Specifications
 {
     /// <summary>
     ///     Create specification from a function delegate

@@ -3,7 +3,7 @@ using System.Linq;
 using System.Text;
 using Atrico.Lib.BusinessLogic.Specifications;
 
-namespace Atrico.Lib.BusinessLogic.Implementation.Specifications
+namespace Atrico.Lib.BusinessLogic.zzImplementation.Specifications
 {
     internal abstract class CompositeSpecification<T> : ISpecification<T>
     {

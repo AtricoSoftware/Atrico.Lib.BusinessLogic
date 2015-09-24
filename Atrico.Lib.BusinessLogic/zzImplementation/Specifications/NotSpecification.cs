@@ -1,6 +1,6 @@
 using Atrico.Lib.BusinessLogic.Specifications;
 
-namespace Atrico.Lib.BusinessLogic.Implementation.Specifications
+namespace Atrico.Lib.BusinessLogic.zzImplementation.Specifications
 {
     /// <summary>
     ///     Represents a NOT specification.
